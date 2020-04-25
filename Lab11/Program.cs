@@ -50,7 +50,7 @@ namespace Lab11
         static string[] departments = { "кафедра высшей математики", "кафедра гражданского и предпринимательнского права", "кафедра гуманитарных дисциплин", "кафедра информационных технологий в бизнесе", "кафедра физического воспитания" };
         #endregion
         #region Queue
-        static void Show_objects(Queue queue)
+        static void Show_objects(ref Queue queue)
         {
             queue = new Queue();
             Console.WriteLine("Объекты класса Person:");
@@ -58,31 +58,31 @@ namespace Lab11
             {
 
                 Person person = new Person(names[rnd.Next(0, 12)], rnd.Next(18, 60));
-                ShowEnq(queue, person);
+                ShowEnq(ref queue, person);
             }
             Console.WriteLine("Объекты класса Student:");
             for (int i = 0; i < size; i++)
             {
 
                 Student student = new Student(names[rnd.Next(0, 12)], rnd.Next(18, 25), rnd.Next(1, 5), rnd.Next(1, 5) + rnd.NextDouble());
-                ShowEnq(queue, student);
+                ShowEnq(ref queue, student);
             }
             Console.WriteLine("Объекты класса Researcher:");
             for (int i = 0; i < size; i++)
             {
 
                 Researcher researcher = new Researcher(names[rnd.Next(0, 12)], rnd.Next(25, 60), posts[rnd.Next(0, 5)]);
-                ShowEnq(queue, researcher);
+                ShowEnq(ref queue, researcher);
             }
             Console.WriteLine("Объекты класса Professor:");
             for (int i = 0; i < size; i++)
             {
 
                 Professor professor = new Professor(names[rnd.Next(0, 12)], rnd.Next(25, 60), posts[rnd.Next(0, 5)], professor_posts[rnd.Next(0, 5)], departments[rnd.Next(0, 5)]);
-                ShowEnq(queue, professor);
+                ShowEnq(ref queue, professor);
             }
         }
-        static void Adding_in_queue(Queue queue)
+        static void Adding_in_queue(ref Queue queue)
         {
             Console.WriteLine("Добавление случайного элемента");
             int choice = rnd.Next(4);
@@ -91,41 +91,41 @@ namespace Lab11
                 case 0:
                     {
                         Person person = new Person(names[rnd.Next(0, 12)], rnd.Next(18, 60));
-                        ShowEnq(queue, person);
+                        ShowEnq(ref queue, person);
                         break;
                     }
                 case 1:
                     {
                         Student student = new Student(names[rnd.Next(0, 12)], rnd.Next(18, 25), rnd.Next(1, 5), rnd.Next(1, 6) + rnd.NextDouble());
-                        ShowEnq(queue, student);
+                        ShowEnq(ref queue, student);
                         break;
                     }
                 case 2:
                     {
                         Researcher researcher = new Researcher(names[rnd.Next(0, 12)], rnd.Next(25, 60), posts[rnd.Next(0, 5)]);
-                        ShowEnq(queue, researcher);
+                        ShowEnq(ref queue, researcher);
                         break;
                     }
                 case 3:
                     {
                         Professor professor = new Professor(names[rnd.Next(0, 12)], rnd.Next(25, 60), posts[rnd.Next(0, 5)], professor_posts[rnd.Next(0, 5)], departments[rnd.Next(0, 5)]);
-                        ShowEnq(queue, professor);
+                        ShowEnq(ref queue, professor);
                         break;
                     }
             }
         }
-        static void Removing_from_queue(Queue queue)
+        static void Removing_from_queue(ref Queue queue)
         {
             Console.WriteLine("Удаление первого элемента очереди");
-            ShowDeq(queue);
+            ShowDeq(ref queue);
         }
-        static void ShowEnq(Queue queue, Person elem)
+        static void ShowEnq(ref Queue queue, Person elem)
         {
             queue.Enqueue(elem);
             Console.WriteLine("Помещаем элемент {0} в очередь", elem);
             Show(queue);
         }
-        static void ShowDeq(Queue queue)
+        static void ShowDeq(ref Queue queue)
         {
             if (queue.Count == 0) Console.WriteLine("Очередь пустая");
             else
@@ -247,52 +247,6 @@ namespace Lab11
         }
         #endregion
         #endregion Запросы
-        static void Clone(Queue queue)
-        {
-            Queue new_queue = new Queue();
-            //Person.Count_of_objects = 1;
-            foreach (Person elem in queue)
-            {
-                Professor clone_professor;
-                Researcher clone_researcher;
-                Student clone_student;
-                Person clone_person;
-                object checking_class = elem as Professor;
-                if (checking_class != null)
-                {
-                    Professor clone = (Professor)elem;
-                    clone_professor = (Professor)clone.Clone();
-                    new_queue.Enqueue(clone_professor);
-                }
-                else
-                {
-                    checking_class = elem as Researcher;
-                    if (checking_class != null)
-                    {
-                        Researcher clone = (Researcher)elem;
-                        clone_researcher = (Researcher)clone.Clone();
-                        new_queue.Enqueue(clone_researcher);
-                    }
-                    else
-                    {
-                        checking_class = elem as Student;
-                        if (checking_class != null)
-                        {
-                            Student clone = (Student)elem;
-                            clone_student = (Student)clone.Clone();
-                            new_queue.Enqueue(clone_student);
-                        }
-                        else
-                        {
-                            Person clone = (Person)elem;
-                            clone_person = (Person)clone.Clone();
-                            new_queue.Enqueue(clone_person);
-                        }
-                    }
-                }
-            }
-            Show(new_queue);
-        }
         static void Search(Queue queue)
         {
             bool is_correct_input = true;
@@ -323,7 +277,7 @@ namespace Lab11
         #endregion Queue
         #region Dictionary<K,T>
         #region Show
-        static void Show_objects(Dictionary<int,Person> dict, ref int Count_of_objects)
+        static void Show_objects(ref Dictionary<int,Person> dict, ref int Count_of_objects)
         {
             dict = new Dictionary<int, Person>();
             Count_of_objects = 1;
@@ -337,7 +291,7 @@ namespace Lab11
                     person = new Person(names[rnd.Next(0, 12)], rnd.Next(18, 60));
                     if (!dict.ContainsValue(person)) exists = false;
                 } while (exists);
-                ShowAdd(dict, person, Count_of_objects);
+                ShowAdd(ref dict, person, Count_of_objects);
                 Count_of_objects++;
             }
             Console.WriteLine("Объекты класса Student:");
@@ -351,7 +305,7 @@ namespace Lab11
                     student = new Student(names[rnd.Next(0, 12)], rnd.Next(18, 25), rnd.Next(1, 5), rnd.Next(1, 5) + rnd.NextDouble());
                     if (!dict.ContainsValue(student)) exists = false;
                 } while (exists);
-                ShowAdd(dict, student, Count_of_objects);
+                ShowAdd(ref dict, student, Count_of_objects);
                 Count_of_objects++;
             }
             Console.WriteLine("Объекты класса Researcher:");
@@ -364,7 +318,7 @@ namespace Lab11
                     researcher = new Researcher(names[rnd.Next(0, 12)], rnd.Next(25, 60), posts[rnd.Next(0, 5)]);
                     if (!dict.ContainsValue(researcher)) exists = false;
                 } while (exists);
-                ShowAdd(dict, researcher, Count_of_objects);
+                ShowAdd(ref dict, researcher, Count_of_objects);
                 Count_of_objects++;
             }
             Console.WriteLine("Объекты класса Professor:");
@@ -377,17 +331,17 @@ namespace Lab11
                     professor = new Professor(names[rnd.Next(0, 12)], rnd.Next(25, 60), posts[rnd.Next(0, 5)], professor_posts[rnd.Next(0, 5)], departments[rnd.Next(0, 5)]);
                     if (!dict.ContainsValue(professor)) exists = false;
                 } while (exists);
-                ShowAdd(dict, professor, Count_of_objects);
+                ShowAdd(ref dict, professor, Count_of_objects);
                 Count_of_objects++;
             }
         }
-        static void ShowAdd(Dictionary<int, Person> dict, Person elem, int Count_of_objects)
+        static void ShowAdd(ref Dictionary<int, Person> dict, Person elem, int Count_of_objects)
         {
             dict.Add(Count_of_objects, elem);
             Console.WriteLine("Помещаем элемент {0} в конец словаря", elem);
             Show(dict);
         }
-        static void ShowDel(Dictionary<int, Person> dict, int Count_of_objects)
+        static void ShowDel(ref Dictionary<int, Person> dict, int Count_of_objects)
         {
             if (dict.Count == 0) Console.WriteLine("Словарь пустой");
             else
@@ -412,7 +366,7 @@ namespace Lab11
             }
         }
         #endregion
-        static void Adding_in_dict(Dictionary<int, Person> dict, ref int Count_of_objects)
+        static void Adding_in_dict(ref Dictionary<int, Person> dict, ref int Count_of_objects)
         {
             Console.WriteLine("Добавление случайного элемента");
             int choice = rnd.Next(4);
@@ -421,28 +375,28 @@ namespace Lab11
                 case 0:
                     {
                         Person person = new Person(names[rnd.Next(0, 12)], rnd.Next(18, 60));
-                        ShowAdd(dict, person, Count_of_objects);
+                        ShowAdd(ref dict, person, Count_of_objects);
                         //Count_of_objects++;
                         break;
                     }
                 case 1:
                     {
                         Student student = new Student(names[rnd.Next(0, 12)], rnd.Next(18, 25), rnd.Next(1, 5), rnd.Next(1, 6) + rnd.NextDouble());
-                        ShowAdd(dict, student, Count_of_objects);
+                        ShowAdd(ref dict, student, Count_of_objects);
                         //Count_of_objects++;
                         break;
                     }
                 case 2:
                     {
                         Researcher researcher = new Researcher(names[rnd.Next(0, 12)], rnd.Next(25, 60), posts[rnd.Next(0, 5)]);
-                        ShowAdd(dict, researcher, Count_of_objects);
+                        ShowAdd(ref dict, researcher, Count_of_objects);
                         //Count_of_objects++;
                         break;
                     }
                 case 3:
                     {
                         Professor professor = new Professor(names[rnd.Next(0, 12)], rnd.Next(25, 60), posts[rnd.Next(0, 5)], professor_posts[rnd.Next(0, 5)], departments[rnd.Next(0, 5)]);
-                        ShowAdd(dict, professor, Count_of_objects);
+                        ShowAdd(ref dict, professor, Count_of_objects);
                         //Count_of_objects++;
                         break;
                     }
@@ -601,7 +555,7 @@ namespace Lab11
         }
         #endregion
         #endregion Запросы
-        static void Searching_and_sorting(Dictionary<int, Person> dict)
+        static void Searching_and_sorting(ref Dictionary<int, Person> dict)
         {
             Dictionary<int, Person> new_dict = new Dictionary<int, Person>();
             foreach (var item in dict.OrderBy(i => i.Value))
@@ -681,7 +635,7 @@ namespace Lab11
                 switch (user_answer)
                 {
                     case 1:
-                        Show_objects(queue);
+                        Show_objects(ref queue);
                         break;
                     case 2:
                         Choice_of_gender(queue);
@@ -693,10 +647,10 @@ namespace Lab11
                         Choice_of_post(queue);
                         break;
                     case 5:
-                        Adding_in_queue(queue);
+                        Adding_in_queue(ref queue);
                         break;
                     case 6:
-                        Removing_from_queue(queue);
+                        Removing_from_queue(ref queue);
                         break;
                     case 7:
                         Search(queue);
@@ -724,7 +678,7 @@ namespace Lab11
                 switch (user_answer)
                 {
                     case 1:
-                        Show_objects(dict, ref Count_of_objects);
+                        Show_objects(ref dict, ref Count_of_objects);
                         break;
                     case 2:
                         if (dict.Keys.Count != 0)
@@ -742,16 +696,16 @@ namespace Lab11
                         else Console.WriteLine("Словарь пустой!");
                         break;
                     case 5:
-                        Adding_in_dict(dict, ref Count_of_objects);
+                        Adding_in_dict(ref dict, ref Count_of_objects);
                         break;
                     case 6:
                         if (dict.Keys.Count != 0)
-                            ShowDel(dict, Count_of_objects);
+                            ShowDel(ref dict, Count_of_objects);
                         else Console.WriteLine("Словарь пустой!");
                         break;
                     case 7:
                         if (dict.Keys.Count != 0)
-                            Searching_and_sorting(dict);
+                            Searching_and_sorting(ref dict);
                         else Console.WriteLine("Словарь пустой!");
                         break;
                     default: break;

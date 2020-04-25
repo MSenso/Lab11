@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace Lab11
 {
@@ -150,11 +144,6 @@ namespace Lab11
             else Console.WriteLine("Элемент не найден!");
             sw.Stop();
             return sw.ElapsedTicks;
-        }
-        string Show_time(TimeSpan time)
-        {
-            string elapsed_Time = time.ToString("mm':'ss':'fff");
-            return elapsed_Time;
         }
         #endregion
         #region Time_Research
